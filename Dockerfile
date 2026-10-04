@@ -45,6 +45,9 @@ RUN pip install opencv-python-headless
 RUN pip install pydicom
 RUN pip install pingouin
 
+# Copy ISBI 2015 dataset
+COPY data/ISBI2015/ /tf/data/ISBI2015/
+
 # Expose ports
 EXPOSE 8888
 EXPOSE 22
