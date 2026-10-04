@@ -222,4 +222,6 @@ __marimo__/
 # Editors
 .idea/
 
+# SSH key
+runpod.pub
 
