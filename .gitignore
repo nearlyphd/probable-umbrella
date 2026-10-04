@@ -225,3 +225,6 @@ __marimo__/
 # SSH key
 runpod.pub
 
+# Data
+data/
+
