@@ -228,3 +228,5 @@ runpod.pub
 # Data
 data/
 
+# Weights
+weights/
