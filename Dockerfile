@@ -27,9 +27,12 @@ RUN chmod 600 /root/.ssh/authorized_keys && \
 # Upgrade pip
 RUN pip install --upgrade pip
 
-# Install PyTorch with CUDA 12.1 (compatible with driver CUDA 12.4)
-RUN pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121 && \
-    pip install timm
+# Install PyTorch built for CUDA 12.8. Blackwell GPUs (RTX PRO 6000, RTX 50xx; compute capability sm_120)
+# need PyTorch >= 2.7 with CUDA >= 12.8; the cu121 wheels stop at sm_90 and fail with
+# 'no kernel image is available for execution on the device'. cu128 also runs on Ampere/Ada/Hopper.
+RUN pip install "torch>=2.7" torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128 && \
+    pip install timm && \
+    python -c "import torch; v = tuple(int(x) for x in torch.version.cuda.split('.')[:2]); assert v >= (12, 8), torch.version.cuda; print(torch.__version__, torch.version.cuda)"
 
 # Install Data Science & Visualization libraries
 RUN pip install \
@@ -47,6 +50,9 @@ RUN pip install pingouin
 
 # Copy ISBI 2015 dataset
 COPY data/ISBI2015/ /tf/data/ISBI2015/
+
+# Copy notebooks
+COPY notebooks/ /tf/notebooks
 
 # Expose ports
 EXPOSE 8888
