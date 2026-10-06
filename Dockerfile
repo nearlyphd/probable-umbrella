@@ -4,6 +4,9 @@ FROM tensorflow/tensorflow:latest-gpu-jupyter
 # Set directory inside the container
 WORKDIR /tf
 
+# Copy ISBI 2015 dataset
+COPY data/ISBI2015/ /tf/data/ISBI2015/
+
 # Install additional system dependencies
 USER root
 RUN apt-get update && apt-get install -y \
@@ -48,15 +51,12 @@ RUN pip install opencv-python-headless
 RUN pip install pydicom
 RUN pip install pingouin
 
-# Copy ISBI 2015 dataset
-COPY data/ISBI2015/ /tf/data/ISBI2015/
-
-# Copy notebooks
-COPY notebooks/ /tf/notebooks
-
 # Expose ports
 EXPOSE 8888
 EXPOSE 22
+
+# Copy notebooks
+COPY notebooks/ /tf/notebooks
 
 CMD ["bash", "-c", "service ssh start && source /etc/bash.bashrc && jupyter lab \
     --notebook-dir=/tf \
