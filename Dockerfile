@@ -4,8 +4,8 @@ FROM tensorflow/tensorflow:latest-gpu-jupyter
 # Set directory inside the container
 WORKDIR /tf
 
-# Copy ISBI 2015 dataset
-COPY data/ISBI2015/ /tf/data/ISBI2015/
+# Copy
+COPY data/ /tf/data/
 
 # Install additional system dependencies
 USER root
